@@ -21,7 +21,7 @@ public class GameManagerStart : MonoBehaviour
     
     public void StartServer()
     {
-        _manager.Manager.StartServer();
+        _manager.Manager.StartHost();
         
         _creater = new LobbyCreater();
 
@@ -39,6 +39,7 @@ public class GameManagerStart : MonoBehaviour
         }
         
         _manager.Manager.StartClient();
+        _manager.Manager.LobbyCode = lobbyField.text;
 
         ChangeScene();
     }
