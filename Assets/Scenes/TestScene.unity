@@ -166,6 +166,7 @@ MonoBehaviour:
   lobbyField: {fileID: 1285913501}
   warningText: {fileID: 384172886}
   sceneName: Assets/Scenes/Test2Scene.unity
+  serverIp: localhost
 --- !u!1 &65077816
 GameObject:
   m_ObjectHideFlags: 0
@@ -1640,7 +1641,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
   runInBackground: 1
-  headlessStartMode: 0
+  headlessStartMode: 1
   editorAutoStart: 0
   sendRate: 60
   offlineScene: 
@@ -1652,10 +1653,11 @@ MonoBehaviour:
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
   authenticator: {fileID: 0}
-  playerPrefab: {fileID: 6797448069199128756, guid: 2c999124454ee714b83fdb5f08da8bc2, type: 3}
+  playerPrefab: {fileID: 7974240432849374193, guid: 703bc506b333bfa4588e97c9d64fcd0d, type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 0
-  spawnPrefabs: []
+  spawnPrefabs:
+  - {fileID: 6797448069199128756, guid: 2c999124454ee714b83fdb5f08da8bc2, type: 3}
   exceptionsDisconnect: 1
   snapshotSettings:
     bufferTimeMultiplier: 2
@@ -1671,8 +1673,8 @@ MonoBehaviour:
   evaluationMethod: 0
   evaluationInterval: 3
   timeInterpolationGui: 0
-  player: []
-  prefabPlayer: {fileID: 6797448069199128756, guid: 2c999124454ee714b83fdb5f08da8bc2, type: 3}
+  players: []
+  currentPlayerPrefab: {fileID: 9040089572905080878, guid: 2c999124454ee714b83fdb5f08da8bc2, type: 3}
 --- !u!114 &1875233043
 MonoBehaviour:
   m_ObjectHideFlags: 0

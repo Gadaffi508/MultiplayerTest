@@ -27,7 +27,15 @@ public class Player : NetworkBehaviour
 
     public int playerIdNumber
     {
-        set { }
+        get { return _playerIdNumber; }
+        private set { }
+    }
+
+    public int _playerIdNumber;
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
     }
 
     public override void OnStartAuthority()

@@ -10,6 +10,8 @@ public class GameManagerStart : MonoBehaviour
 
     [SerializeField] [Scene] string sceneName = string.Empty;
     
+    public string serverIp = "localhost";
+    
     GameManager _manager;
 
     LobbyCreater _creater;
@@ -21,7 +23,7 @@ public class GameManagerStart : MonoBehaviour
     
     public void StartServer()
     {
-        _manager.Manager.StartHost();
+        NetworkManager.singleton.StartHost();
         
         _creater = new LobbyCreater();
 
@@ -38,7 +40,9 @@ public class GameManagerStart : MonoBehaviour
             return;
         }
         
-        _manager.Manager.StartClient();
+        NetworkManager.singleton.networkAddress = serverIp;
+        NetworkManager.singleton.StartClient();
+        
         _manager.Manager.LobbyCode = lobbyField.text;
 
         ChangeScene();
