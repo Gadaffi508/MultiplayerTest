@@ -8,7 +8,7 @@ public class CustomNetworkManager : NetworkManager
 
     public List<Player> players = new();
     
-    public Player currentPlayerPrefab;
+    public GameObject currentPlayerPrefab;
     
     public override void OnStartServer()
     {
@@ -32,25 +32,29 @@ public class CustomNetworkManager : NetworkManager
     {
         Debug.Log("Bir istemci bağlantı kesti (Mirror): " + conn.connectionId);
     }
-    
-    public override void OnServerAddPlayer(NetworkConnectionToClient conn)
-    {
-        Player playerInstance = Instantiate(currentPlayerPrefab); // playerPrefab atanmalı
-
-        playerInstance._playerIdNumber = players.Count + 1;
-        playerInstance.connectionID = conn.connectionId;
-
-        players.Add(playerInstance);
-
-        NetworkServer.AddPlayerForConnection(conn, playerInstance.gameObject);
-        Debug.Log($"Oyuncu eklendi: {playerInstance.name}, ID: {playerInstance.playerIdNumber}");
-    }
 
     public override void OnStartClient()
     {
         Debug.Log("İstemci başlatıldı (Mirror).");
         base.OnStartClient();
     }
+    
+    public override void OnServerAddPlayer(NetworkConnectionToClient conn)
+    {
+        Transform startPos = GetStartPosition();
+        Vector3 spawnPos = startPos != null ? startPos.position : Vector3.zero;
+
+        GameObject player = Instantiate(currentPlayerPrefab, spawnPos, Quaternion.identity);
+
+        Player playerScript = player.GetComponent<Player>();
+        playerScript._name = "Yusuf " + numPlayers;
+        playerScript._playerIdNumber = numPlayers;
+
+        NetworkServer.AddPlayerForConnection(conn, player);
+
+        Debug.Log("Player serverda spawn edildi: " + playerScript._name);
+    }
+
 
     public override void OnClientConnect()
     {

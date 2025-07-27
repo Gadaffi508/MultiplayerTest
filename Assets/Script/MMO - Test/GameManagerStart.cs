@@ -12,22 +12,33 @@ public class GameManagerStart : MonoBehaviour
     
     public string serverIp = "localhost";
     
-    GameManager _manager;
+    CustomNetworkManager _manager;
+
+    public CustomNetworkManager Manager
+    {
+        get
+        {
+            if (_manager != null) return _manager;
+            return _manager = NetworkManager.singleton as CustomNetworkManager;
+        }
+    }
 
     LobbyCreater _creater;
+
+    private GameManager manager;
     
     private void Start()
     {
-        _manager = new GameManager();
+        manager = new GameManager();
     }
     
     public void StartServer()
     {
-        NetworkManager.singleton.StartHost();
+        Manager.StartHost();
         
         _creater = new LobbyCreater();
 
-        _manager.Manager.LobbyCode = _creater.GenerateLobbyCode();
+        Manager.LobbyCode = _creater.GenerateLobbyCode();
 
         ChangeScene();
     }
@@ -40,16 +51,15 @@ public class GameManagerStart : MonoBehaviour
             return;
         }
         
-        NetworkManager.singleton.networkAddress = serverIp;
-        NetworkManager.singleton.StartClient();
+        Manager.StartClient();
         
-        _manager.Manager.LobbyCode = lobbyField.text;
+        Manager.LobbyCode = lobbyField.text;
 
         ChangeScene();
     }
 
     void ChangeScene()
     {
-        _manager.ChangeScene(sceneName);
+        manager.ChangeScene(sceneName);
     }
 }

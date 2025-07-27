@@ -1,50 +1,33 @@
 using System;
 using Mirror;
+using UnityEngine;
 
 public class Player : NetworkBehaviour
 {
-    public string Name
-    {
-        get
-        {
-            if (_name == null)
-            {
-                return "Empty";
-            }
-            else
-            {
-                return _name;
-            }
-        }
-    }
+    [SyncVar]
+    public string _name = "Empty";
 
-    private string _name = null;
-
-    public int connectionID
-    {
-        set { }
-    }
-
-    public int playerIdNumber
-    {
-        get { return _playerIdNumber; }
-        private set { }
-    }
-
+    [SyncVar]
     public int _playerIdNumber;
 
-    public override void OnStartClient()
+    public string Name => string.IsNullOrEmpty(_name) ? "Empty" : _name;
+
+    public override void OnStartServer()
     {
-        base.OnStartClient();
+        // Bu sadece serverda çalışır → burada oyuncuya isim verebilirsin
+        _name = "Yusuf " + netId;
+        _playerIdNumber = (int)netId;
+        Debug.Log("Player serverda oluşturuldu: " + _name);
     }
 
-    public override void OnStartAuthority()
+    public override void OnStartLocalPlayer()
     {
-        DontDestroyOnLoad(this);
+        Debug.Log("Bu benim yerel oyuncum: " + _name);
     }
 
     private void Start()
     {
-        _name = "Yusuf " + netId;
+        // Artık burası gerekmez ama bilgi istersen
+        Debug.Log("Start çalıştı: " + _name);
     }
 }
