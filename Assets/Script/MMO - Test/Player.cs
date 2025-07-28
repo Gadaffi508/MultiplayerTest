@@ -14,20 +14,21 @@ public class Player : NetworkBehaviour
 
     public override void OnStartServer()
     {
-        // Bu sadece serverda çalışır → burada oyuncuya isim verebilirsin
-        _name = "Yusuf " + netId;
-        _playerIdNumber = (int)netId;
-        Debug.Log("Player serverda oluşturuldu: " + _name);
+        
     }
 
     public override void OnStartLocalPlayer()
     {
-        Debug.Log("Bu benim yerel oyuncum: " + _name);
+        
     }
 
     private void Start()
     {
-        // Artık burası gerekmez ama bilgi istersen
-        Debug.Log("Start çalıştı: " + _name);
+        NetworkManager.singleton.allPlayers.Add(this.gameObject);
+        
+        _name = "Player " + netId;
+        _playerIdNumber = (int)netId;
+        
+        DontDestroyOnLoad(this);
     }
 }

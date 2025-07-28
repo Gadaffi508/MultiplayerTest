@@ -108,6 +108,18 @@ namespace Mirror
         [FormerlySerializedAs("m_PlayerSpawnMethod")]
         [Tooltip("Round Robin or Random order of Start Position selection")]
         public PlayerSpawnMethod playerSpawnMethod;
+        
+        [Space]
+        // Lobby Code.
+        [FormerlySerializedAs("m_LobbyCode")]
+        [Tooltip("This Lobby Code")]
+        public string lobbyCode;
+        
+        [Space]
+        // Player List
+        [FormerlySerializedAs("m_PlayerList")]
+        [Tooltip("This Player List")]
+        public List<GameObject> allPlayers = new();
 
         /// <summary>Prefabs that can be spawned over the network need to be registered here.</summary>
         [FormerlySerializedAs("m_SpawnPrefabs"), HideInInspector]

@@ -15,7 +15,7 @@ public class GameManagerEnd : NetworkBehaviour
 
         this.gameObject.AddComponent<NetworkIdentity>();
 
-        lobbyIDText.text = _manager.Manager.LobbyCode;
+        lobbyIDText.text = NetworkManager.singleton.lobbyCode;
     }
 
     public void Copy()
@@ -31,11 +31,11 @@ public class GameManagerEnd : NetworkBehaviour
     {
         if (isServer)
         {
-            _manager.Manager.StopServer();
+            NetworkManager.singleton.StopServer();
         }
         else
         {
-            _manager.Manager.StopClient();
+            NetworkManager.singleton.StopClient();
         }
 
         _manager.ChangeScene("TestScene");

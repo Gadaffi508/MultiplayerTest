@@ -11,17 +11,6 @@ public class GameManagerStart : MonoBehaviour
     [SerializeField] [Scene] string sceneName = string.Empty;
     
     public string serverIp = "localhost";
-    
-    CustomNetworkManager _manager;
-
-    public CustomNetworkManager Manager
-    {
-        get
-        {
-            if (_manager != null) return _manager;
-            return _manager = NetworkManager.singleton as CustomNetworkManager;
-        }
-    }
 
     LobbyCreater _creater;
 
@@ -34,11 +23,11 @@ public class GameManagerStart : MonoBehaviour
     
     public void StartServer()
     {
-        Manager.StartHost();
+        NetworkManager.singleton.StartHost();
         
         _creater = new LobbyCreater();
-
-        Manager.LobbyCode = _creater.GenerateLobbyCode();
+        
+        NetworkManager.singleton.lobbyCode = _creater.GenerateLobbyCode();
 
         ChangeScene();
     }
@@ -51,15 +40,15 @@ public class GameManagerStart : MonoBehaviour
             return;
         }
         
-        Manager.StartClient();
+        NetworkManager.singleton.lobbyCode = lobbyField.text;
         
-        Manager.LobbyCode = lobbyField.text;
+        NetworkManager.singleton.StartClient();
 
         ChangeScene();
     }
 
     void ChangeScene()
     {
-        manager.ChangeScene(sceneName);
+        //manager.ChangeScene(sceneName);
     }
 }
