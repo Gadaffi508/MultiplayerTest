@@ -24,11 +24,15 @@ public class Player : NetworkBehaviour
 
     private void Start()
     {
+        if (isLocalPlayer)
+        {
+            _name = "Player " + netId;
+            string code = NetworkManager.singleton.lobbyCode;
+            LobbyManager.AddPlayer(code, _name);
+            Debug.Log("Lobiye katıldı: " + _name);
+        }
+
         NetworkManager.singleton.allPlayers.Add(this.gameObject);
-        
-        _name = "Player " + netId;
-        _playerIdNumber = (int)netId;
-        
         DontDestroyOnLoad(this);
     }
 }

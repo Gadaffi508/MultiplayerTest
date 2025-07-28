@@ -27,9 +27,13 @@ public class GameManagerStart : MonoBehaviour
         
         _creater = new LobbyCreater();
         
-        NetworkManager.singleton.lobbyCode = _creater.GenerateLobbyCode();
-
-        ChangeScene();
+        string code = _creater.GenerateLobbyCode();
+        
+        NetworkManager.singleton.lobbyCode = code;
+        
+        LobbyManager.CreateLobby(code);
+        
+        Debug.Log("Lobi oluşturuldu: " + code);
     }
     
     public void StartClient()
@@ -42,13 +46,8 @@ public class GameManagerStart : MonoBehaviour
         
         NetworkManager.singleton.lobbyCode = lobbyField.text;
         
+        NetworkManager.singleton.networkAddress = serverIp;
+        
         NetworkManager.singleton.StartClient();
-
-        ChangeScene();
-    }
-
-    void ChangeScene()
-    {
-        //manager.ChangeScene(sceneName);
     }
 }
