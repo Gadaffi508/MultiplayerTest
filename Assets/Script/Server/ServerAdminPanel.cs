@@ -1,9 +1,7 @@
-using System;
-using UnityEngine;
-using UnityEngine.UI;
 using Mirror;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine;
 
 public class ServerAdminPanel : MonoBehaviour
 {
@@ -39,7 +37,7 @@ public class ServerAdminPanel : MonoBehaviour
     {
         if (clientListText == null) return;
 
-        clientListText.text = $"🧍 Oyuncular: {connectedClients.Count}\n";
+        clientListText.text = $"🧍 Players: {connectedClients.Count}\n";
         foreach (var pair in connectedClients)
         {
             clientListText.text += $"• ID: {pair.Key} | IP: {pair.Value}\n";

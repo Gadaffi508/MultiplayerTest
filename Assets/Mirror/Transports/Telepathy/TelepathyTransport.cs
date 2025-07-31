@@ -168,16 +168,17 @@ namespace Mirror
         public override bool ServerActive() => server != null && server.Active;
         public override void ServerStart()
         {
+            // 🔐 Önce port kullanımda mı kontrol et
+            if (IsPortInUse(port))
+            {
+                Debug.LogError($"❌ TelepathyTransport failed: port {port} is already in use.");
+                return; // ❗ Server hiç başlatılmamalı
+            }
+
             // create server
             server = new Telepathy.Server(serverMaxMessageSize);
 
             // server hooks
-            // other systems hook into transport events in OnCreate or
-            // OnStartRunning in no particular order. the only way to avoid
-            // race conditions where telepathy uses OnConnected before another
-            // system's hook (e.g. statistics OnData) was added is to wrap
-            // them all in a lambda and always call the latest hook.
-            // (= lazy call)
             server.OnConnected = (connectionId, remoteClientAddress) => OnServerConnectedWithAddress.Invoke(connectionId, remoteClientAddress);
             server.OnData = (connectionId, segment) => OnServerDataReceived.Invoke(connectionId, segment, Channels.Reliable);
             server.OnDisconnected = (connectionId) => OnServerDisconnected.Invoke(connectionId);
@@ -189,8 +190,30 @@ namespace Mirror
             server.SendQueueLimit = serverSendQueueLimitPerConnection;
             server.ReceiveQueueLimit = serverReceiveQueueLimitPerConnection;
 
+            // artık güvenle başlatabiliriz
             server.Start(port);
         }
+        
+        private bool IsPortInUse(int port)
+        {
+            TcpListener listener = null;
+
+            try
+            {
+                listener = new TcpListener(IPAddress.Loopback, port);
+                listener.Start();
+                return false; // Kullanılmıyor
+            }
+            catch (SocketException)
+            {
+                return true; // Port kullanımda
+            }
+            finally
+            {
+                listener?.Stop();
+            }
+        }
+
 
         public override void ServerSend(int connectionId, ArraySegment<byte> segment, int channelId)
         {
