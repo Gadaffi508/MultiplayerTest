@@ -36,7 +36,7 @@ public class SteamLobbyManager : MonoBehaviour
 
     public void CreateRoom()
     {
-        if (IsNetworkReady()) return;
+        if (!IsNetworkReady()) return;
 
         string roomNane = SteamFriends.GetPersonaName();
 
@@ -54,7 +54,7 @@ public class SteamLobbyManager : MonoBehaviour
 
     public void JoinRoom(string lobbyUserName, CSteamID lobbyID)
     {
-        if (IsNetworkReady()) return;
+        if (!IsNetworkReady()) return;
 
         PhotonNetwork.JoinRoom(lobbyUserName);
         
@@ -111,8 +111,8 @@ public class SteamLobbyManager : MonoBehaviour
     bool IsNetworkReady()
     {
         if (CustomNetworkManager.Instance == null) return false;
-        if (!CustomNetworkManager.Instance.OnInitalized) return false;
-        if (!PhotonNetwork.IsConnectedAndReady) return false;
+        if (CustomNetworkManager.Instance.OnInitalized == false) return false;
+        if (PhotonNetwork.IsConnectedAndReady == false) return false;
 
         return true;
     }

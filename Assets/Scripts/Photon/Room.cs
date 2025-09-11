@@ -24,6 +24,6 @@ public class Room : MonoBehaviour
 
     public void JoinRoom()
     {
-        SteamMatchmaking.JoinLobby(ID);
+        SteamLobbyManager.Instance.JoinRoom(lobbyName,ID);
     }
 }
